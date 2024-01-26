@@ -1,12 +1,24 @@
+//========================================================
+// Khoa Ho, Phan Anh Le
+// set.cpp
+// January 2024
+// This file contains the class methods for the
+// Set class.
+//========================================================
+
+
 #include <iostream>
 #include "set.h"
 #include <string>
 #include <chrono>
+#include <sstream> 
 using namespace std;
 
 //=============================================
 // default function
-// The function creates a new empty List 
+// The function creates a new empty Set
+// Pre-condition: None.
+// Post-condition: Creates an empty set.
 // Parameter: void
 // Return value: None
 //=============================================
@@ -18,16 +30,19 @@ Set<T>	::Set(void)
 
 //=============================================
 // copy function 
-// The function creates a new List from an existing one.
-// Parameter: List (mylist)
+// The function creates a new Set from an 
+// existing one.
+// Pre-condition: properly initialized Set
+// Post-condition: Creates a new Set which is a deep copy of the input myset.
+// Parameter: Set (myset)
 // Return value: None
 //=============================================
 
 template <typename T>
-Set<T>	::Set(const Set<T> &mylist) 
+Set<T>	::Set(const Set<T> &myset) 
 {
 
-    Node *otherPtr = mylist.head;
+    Node *otherPtr = myset.head;
     Node *last = NULL;
 
     while (otherPtr != NULL)
@@ -52,7 +67,9 @@ Set<T>	::Set(const Set<T> &mylist)
 
 //=============================================
 // destructor function
-// The function cleans up the memory of the list.
+// The function cleans up the memory of the Set
+// Pre-condition: None
+// Post-condition: Deallocates all memory used by the Set, leaving it in an empty state.
 // Parameter: void
 // Return value: None
 //=============================================
@@ -70,12 +87,16 @@ Set<T>	::~Set(void)
     }
 }
 
-    // Insert 
+//=============================================
+// insert function 
+// The function inserts variable into the Set
+// Pre-condition: properly initialized Set
+// Post-condition: Inserts the element into the Set if it's not already present
+// Parameter: value
+// Return value: None
+//=============================================
 
-
-
-
-template <class T>
+template <typename T>
 void		Set<T>::insert		( const T &value )
 {
 	Node *current = head;
@@ -93,7 +114,14 @@ void		Set<T>::insert		( const T &value )
 	head = newNode;
 }
 
-    // Remove 
+//=============================================
+// remove function 
+// The function remove variable out of the Set
+// Pre-condition: properly initialized Set
+// Post-condition: If the element is found, it is removed from the Set
+// Parameter: value
+// Return value: None
+//=============================================
 template <typename T>
 void 	Set<T>::remove(const T& value) 
 {
@@ -120,7 +148,14 @@ void 	Set<T>::remove(const T& value)
         }
 }
 
-    // cardinality 
+//=============================================
+// cardinality function 
+// The function show the number of elements in the Set.
+// Pre-condition: properly initialized Set
+// Post-condition: Returns the number of elements in the Set.
+// Parameter: void
+// Return value: count
+//=============================================
 template <typename T>
 int 	Set<T>::cardinality(void) const 
 {
@@ -136,33 +171,34 @@ int 	Set<T>::cardinality(void) const
         return count;
 }
 
-    // empty
+
+//=============================================
+// empty function 
+// The function indicate whether set is the empty set
+// Pre-condition: properly initialized Set
+// Post-condition: Returns true if the Set is empty, false otherwise.
+// Parameter: void
+// Return value: None
+//=============================================
 template <typename T>
 bool 	Set<T>::empty(void) const 
 {
         return head == NULL;
 }
 
-    // contains 
-// template <typename T>
-// bool 	Set<T>::contains(const T& value) const
-// {
-//         Node* current = head;
-
-//         while (current != NULL)
-//         {
-//             if (current->item == value) 
-//             {
-//                 return true;
-//             }
-//             current = current->next;
-//         }
-
-//         return false;
-// }
-
+//=============================================
+// contains function 
+// The function indicate whether a specific element 
+// is contained in the Set
+// Pre-condition: properly initialized Set
+// Post-condition: Returns true if the element is in the Set, false otherwise.
+// Parameter: value
+// Return value: true if the element is in the Set
+// false otherwise. 
+//=============================================
 template <typename T>
-bool Set<T>::contains(const T& value) const {
+bool Set<T>::contains(const T& value) const 
+{
     Node* current = head;
     while (current != NULL) {
         if (current->item == value) {
@@ -173,11 +209,15 @@ bool Set<T>::contains(const T& value) const {
     return false;
 }
 
-    // Equality operator
+//=============================================
+// equality function
+// Pre-condition: Both Sets should be properly initialized
+// Post-condition: Returns true if both Sets contain exactly the same elements.
+//=============================================
 template <typename T>    
-bool 	Set<T>::operator==(const Set<T>& mylist) const 
+bool 	Set<T>::operator==(const Set<T>& myset) const 
 {
-        if (cardinality() != mylist.cardinality()) 
+        if (cardinality() != myset.cardinality()) 
         {
             return false;
         }
@@ -185,7 +225,7 @@ bool 	Set<T>::operator==(const Set<T>& mylist) const
         Node* current = head;
         while (current != NULL) 
         {
-            if (!mylist.contains(current->item)) 
+            if (!myset.contains(current->item)) 
             {
                 return false;
             }
@@ -195,14 +235,23 @@ bool 	Set<T>::operator==(const Set<T>& mylist) const
         return true;
 }
 
-    // Subset operator
+//=============================================
+// subset function 
+// The function indicate whether first Set 
+// is the subset of the second Set
+// Pre-condition: Both Sets should be properly initialized
+// Post-condition: Returns true if every element of the first Set is in the second Set.
+// Parameter: myset
+// Return value: true if the first Set is the subset 
+// of the second Set, false otherwise 
+//=============================================
 template <typename T>
-bool 	Set<T>::operator<=(const Set<T>& mylist) const 
+bool 	Set<T>::operator<=(const Set<T>& myset) const 
 {
         Node* current = head;
         while (current != NULL) 
         {
-            if (!mylist.contains(current->item)) 
+            if (!myset.contains(current->item)) 
             {
                 return false;
             }
@@ -212,34 +261,19 @@ bool 	Set<T>::operator<=(const Set<T>& mylist) const
         return true;
     }
 
-    // Union operator
-// template <typename T>
-// Set<T> 	Set<T>::operator+(const Set<T>& mylist) const 
-// {
-//         Set<T> result;
-//         Node* current = mylist.head;
-//         while (current != NULL) 
-//         {
-//             result.insert(current->item);
-//             current = current->next;
-//         }
-
-//         current = mylist.head;
-//         while (current != NULL) 
-//         {
-//             result.insert(current->item);
-//             current = current->next;
-//         }
-
-//         return result;
-// } sai
-
-
+//=============================================
+// union function 
+// The function return the union of two sets 
+// Pre-condition: Both Sets should be properly initialized
+// Post-condition: Returns a new Set which is the union of the two Sets (containing all elements from both).
+// Parameter: myset
+// Return value: new union set 
+//=============================================
 template <typename T>
-Set<T> Set<T>::operator+(const Set<T>& mylist) const {
+Set<T> Set<T>::operator+(const Set<T>& myset) const {
     Set<T> result;
 
-    Node* current = mylist.head;
+    Node* current = myset.head;
     while (current != NULL) {
         result.insert(current->item);
         current = current->next;
@@ -254,15 +288,23 @@ Set<T> Set<T>::operator+(const Set<T>& mylist) const {
 }
 
 
-    // Intersection operator
+//=============================================
+// intersection function 
+// The function return the intersection set of 
+// two sets 
+// Pre-condition: Both Sets should be properly initialized
+// Post-condition: Returns a new Set which is the union of the two Sets (containing all elements from both).
+// Parameter: myset
+// Return value: new intersection set
+//=============================================
 template <typename T>
-Set<T> 	Set<T>::operator&(const Set<T>& mylist) const 
+Set<T> 	Set<T>::operator&(const Set<T>& myset) const 
 {
         Set<T> result;
         Node* current = head;
         while (current != NULL) 
         {
-            if (mylist.contains(current->item)) 
+            if (myset.contains(current->item)) 
             {
                 result.insert(current->item);
             }
@@ -272,15 +314,24 @@ Set<T> 	Set<T>::operator&(const Set<T>& mylist) const
         return result;
 }
 
-    // Difference operator
+//=============================================
+// difference function 
+// The function returns the differences of the 
+// first Set and the second Set. 
+// Pre-condition: Both Sets should be properly initialized
+// Post-condition: Returns a new Set which is the intersection of the two Sets (only elements common to both).
+// Parameter: myset
+// Return value: true if the first Set is the subset 
+// of the second Set, false otherwise 
+//=============================================
 template <typename T>
-Set<T> 	Set<T>::operator-(const Set<T>& mylist) const 
+Set<T> 	Set<T>::operator-(const Set<T>& myset) const 
 {
         Set<T> result;
         Node* current = head;
         while (current != NULL) 
         {
-            if (!mylist.contains(current->item)) 
+            if (!myset.contains(current->item)) 
             {
                 result.insert(current->item);
             }
@@ -290,25 +341,29 @@ Set<T> 	Set<T>::operator-(const Set<T>& mylist) const
         return result;
 }
 
+//=============================================
+// to_string function 
+// The function returns a string with the elements
+// in the set separated by a single space and starting at the head
+// Pre-condition: properly initialized Set
+// Post-condition: Returns a string representation of the Set's elements.
+// Parameter: void
+// Return value: new set.
+//=============================================
+
 template <typename T>
-string Set<T>::to_string() const 
+string Set<T>::to_string(void) const 
 {
-    string result = ""; 
-    Node* current = head; 
+    std::stringstream output; 
+    Node *current = head;
     while (current != NULL)
     {
-        result += std::to_string(current->item);
+        output << current->item;
         if (current->next != NULL)
         {
-            result += " "; 
+            output << " ";
         }
         current = current->next;
     }
-    result += ""; 
-    return result;
+    return output.str();
 }
-
-
-
-
-
