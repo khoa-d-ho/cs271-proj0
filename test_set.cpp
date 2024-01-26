@@ -1,4 +1,3 @@
-////
 #include "set.cpp"
 
 void test_insert() {
