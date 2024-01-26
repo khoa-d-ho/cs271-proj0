@@ -78,14 +78,14 @@ Set<T>	::~Set(void)
 template <class T>
 void		Set<T>::insert		( const T &value )
 {
-	Node *cur = head;
-	while ( cur != NULL )
+	Node *current = head;
+	while ( current != NULL )
 	{
-		if (cur->item == value)
+		if (current->item == value)
 		{
 			return;
 		}
-		cur = cur->next;
+		current = current->next;
 	}
 	Node *newNode = new Node;
 	newNode->item = value;
@@ -239,13 +239,12 @@ template <typename T>
 Set<T> Set<T>::operator+(const Set<T>& mylist) const {
     Set<T> result;
 
-    Node* current = head;
+    Node* current = mylist.head;
     while (current != NULL) {
         result.insert(current->item);
         current = current->next;
     }
-
-    current = mylist.head;
+    current = head;
     while (current != NULL) {
         result.insert(current->item);
         current = current->next;
